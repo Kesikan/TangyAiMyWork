@@ -41,31 +41,32 @@ if (process.env.VITE_USE_EMULATORS === 'true') {
 }
 
 const categories = [
-  { name: 'Appetizers', description: 'Small plates to start.' },
-  { name: 'Mains', description: 'Hearty main dishes.' },
-  { name: 'Desserts', description: 'Something sweet to finish.' },
-  { name: 'Drinks', description: 'Hot, cold and refreshing.' },
+  { name: 'Appetizer', description: 'Small plates to start.' },
+  { name: 'Entree', description: 'Hearty main dishes.' },
+  { name: 'Dessert', description: 'Something sweet to finish.' },
 ]
+
+const IMAGE_BASE = 'https://testkesis.blob.core.windows.net/tangyaidemo'
 
 const products: Array<{
   category: string
   name: string
   description: string
   price: number
-  isAvailable?: boolean
+  image: string
 }> = [
-  { category: 'Appetizers', name: 'Crispy Calamari', description: 'Lightly battered squid with lemon aioli.', price: 9.5 },
-  { category: 'Appetizers', name: 'Bruschetta', description: 'Grilled bread, tomato, basil and garlic.', price: 7.5 },
-  { category: 'Appetizers', name: 'Spicy Chicken Wings', description: 'Tossed in tangy chili glaze with ranch dip.', price: 10 },
-  { category: 'Mains', name: 'Grilled Salmon', description: 'Atlantic salmon with citrus butter and seasonal greens.', price: 22 },
-  { category: 'Mains', name: 'Tangy BBQ Ribs', description: 'Slow-cooked pork ribs with house barbecue sauce and fries.', price: 24.5 },
-  { category: 'Mains', name: 'Mushroom Risotto', description: 'Creamy arborio rice with wild mushrooms and parmesan.', price: 18 },
-  { category: 'Mains', name: 'Chicken Parmigiana', description: 'Crumbed chicken breast, napoli sauce and melted mozzarella.', price: 20, isAvailable: false },
-  { category: 'Desserts', name: 'Chocolate Lava Cake', description: 'Warm chocolate cake with a molten centre and vanilla ice cream.', price: 8.5 },
-  { category: 'Desserts', name: 'Lemon Tart', description: 'Sharp lemon curd in a buttery pastry shell.', price: 7.5 },
-  { category: 'Drinks', name: 'Fresh Lemonade', description: 'Squeezed to order with mint.', price: 4.5 },
-  { category: 'Drinks', name: 'Iced Coffee', description: 'Cold brew over ice with a splash of milk.', price: 5 },
-  { category: 'Drinks', name: 'Mango Smoothie', description: 'Blended mango, yoghurt and honey.', price: 6.5 },
+  { category: 'Appetizer', name: 'Caprese', description: 'Fresh mozzarella, ripe tomato and basil with olive oil.', price: 9, image: 'Caprese.png' },
+  { category: 'Appetizer', name: 'Bruschetta', description: 'Grilled bread topped with tomato, basil and garlic.', price: 8, image: 'Bruschetta.png' },
+  { category: 'Appetizer', name: 'Focaccia', description: 'Warm rosemary focaccia baked with sea salt and olive oil.', price: 7, image: 'Focaccia.png' },
+  { category: 'Entree', name: 'Cacio e Pepe', description: 'Spaghetti with pecorino romano and freshly cracked black pepper.', price: 17, image: 'Cacio_e_Pepe.png' },
+  { category: 'Entree', name: 'Margherita Pizza', description: 'Wood-fired pizza with tomato, mozzarella and fresh basil.', price: 16, image: 'Margherita_Pizza.png' },
+  { category: 'Entree', name: 'Pasta al Pomodoro', description: 'Pasta in a simple sauce of ripe tomatoes, garlic and basil.', price: 15, image: 'Pasta_al_Pomodoro.png' },
+  { category: 'Entree', name: 'Pesto Genovese', description: 'Pasta tossed in basil pesto with pine nuts and parmesan.', price: 17, image: 'Pesto_Genovese.png' },
+  { category: 'Entree', name: 'Pesto Pizza', description: 'Pizza with basil pesto, mozzarella and cherry tomatoes.', price: 17, image: 'Pesto_Pizza.png' },
+  { category: 'Entree', name: 'Ravioli di Spinaci', description: 'Spinach and ricotta ravioli in a sage butter sauce.', price: 19, image: 'Ravioli_di_Spinaci.png' },
+  { category: 'Dessert', name: 'Cannoli', description: 'Crisp pastry shells filled with sweet ricotta cream.', price: 8, image: 'Cannoli.png' },
+  { category: 'Dessert', name: 'Panna Cotta', description: 'Silky vanilla cream pudding with berry sauce.', price: 8, image: 'Panna_Cotta.png' },
+  { category: 'Dessert', name: 'Tiramisu', description: 'Espresso-soaked ladyfingers layered with mascarpone and cocoa.', price: 9, image: 'Tiramisu.png' },
 ]
 
 const existing = await getDocs(query(collection(db, 'categories'), limit(1)))
@@ -98,7 +99,8 @@ for (const product of products) {
     description: product.description,
     price: product.price,
     categoryId,
-    isAvailable: product.isAvailable ?? true,
+    imageUrl: `${IMAGE_BASE}/${product.image}`,
+    isAvailable: true,
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
   })
