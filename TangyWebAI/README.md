@@ -1,42 +1,83 @@
-# TangyWebAI
+# Tangy Restaurant Website
 
-This template should help get you started developing with Vue 3 in Vite.
+Vue 3 + TypeScript + Vite menu site backed by Cloud Firestore. Visitors can browse, search and filter the menu. `/manage` provides CRUD for products and categories.
 
-## Recommended IDE Setup
+> `/manage` has **no authentication yet**. Anyone with the URL can edit data, and `firestore.rules` currently allows open writes (marked `TEMPORARY`). Add admin auth and lock the rules before going public.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Stack
 
-## Recommended Browser Setup
+Vue 3, TypeScript, Vite, Vue Router, Pinia, Firebase (modular SDK, Firestore), Tailwind CSS v4, Headless UI, Vitest.
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+## Setup
 
 ```sh
 npm install
+cp .env.example .env   # then fill in your values
 ```
 
-### Compile and Hot-Reload for Development
+### Environment variables
+
+All Firebase config comes from `.env` (never committed). See `.env.example`:
+
+| Variable | Description |
+|---|---|
+| `VITE_FIREBASE_API_KEY` | Web API key |
+| `VITE_FIREBASE_AUTH_DOMAIN` | Auth domain |
+| `VITE_FIREBASE_PROJECT_ID` | Project ID |
+| `VITE_FIREBASE_STORAGE_BUCKET` | Storage bucket |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | Messaging sender ID |
+| `VITE_FIREBASE_APP_ID` | App ID |
+| `VITE_USE_EMULATORS` | `true` to use the local Firestore emulator |
+
+The app throws an error naming any missing variable at startup. The web API key is not a secret. Data is protected by Firestore security rules.
+
+## Local development with the emulator
+
+Requires the [Firebase CLI](https://firebase.google.com/docs/cli) and Java.
 
 ```sh
+# set VITE_USE_EMULATORS=true in .env (a demo-* project ID needs no real project)
+firebase emulators:start --only firestore   # terminal 1
+npm run seed                                # terminal 2, loads sample data (skips if data exists)
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+Emulator UI: http://localhost:4000
+
+## Scripts
+
+| Command | Purpose |
+|---|---|
+| `npm run dev` | Dev server |
+| `npm run build` | Type-check and build |
+| `npm run type-check` | `vue-tsc` |
+| `npm run lint` | ESLint |
+| `npm run format` | Prettier |
+| `npm test` | Vitest |
+| `npm run seed` | Seed categories and products |
+
+## Data model
+
+- `categories`: `name`, `nameKey` (lowercased name for case-insensitive uniqueness), `description?`, `sortOrder`, `createdAt`, `updatedAt`
+- `products`: `name`, `description`, `price`, `categoryId`, `imageUrl?`, `isAvailable`, `createdAt`, `updatedAt`
+
+Uniqueness of category names is enforced in the service layer, so two simultaneous writes could still race.
+
+## Architecture
+
+```
+views/components -> stores (Pinia) -> services -> src/firebase/index.ts
+```
+
+Components and stores never import Firestore directly.
+
+## Deploying to Firebase Hosting
 
 ```sh
+firebase login
+firebase use <your-project-id>
 npm run build
+firebase deploy --only firestore:rules,firestore:indexes,hosting
 ```
+
+Set the `VITE_FIREBASE_*` values for the production project in `.env` before building.

@@ -1,0 +1,48 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isString(value, min, max) {
+      return value is string && value.size() >= min && value.size() <= max;
+    }
+
+    function validCategory(data) {
+      return data.keys().hasOnly(['name', 'nameKey', 'description', 'sortOrder', 'createdAt', 'updatedAt'])
+        && data.keys().hasAll(['name', 'nameKey', 'sortOrder', 'createdAt', 'updatedAt'])
+        && isString(data.name, 1, 60)
+        && isString(data.nameKey, 1, 60)
+        && (!('description' in data) || isString(data.description, 0, 300))
+        && data.sortOrder is number
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function validProduct(data) {
+      return data.keys().hasOnly(['name', 'description', 'price', 'categoryId', 'imageUrl', 'isAvailable', 'createdAt', 'updatedAt'])
+        && data.keys().hasAll(['name', 'description', 'price', 'categoryId', 'isAvailable', 'createdAt', 'updatedAt'])
+        && isString(data.name, 1, 100)
+        && isString(data.description, 1, 1000)
+        && data.price is number && data.price >= 0 && data.price <= 100000
+        && isString(data.categoryId, 1, 128)
+        && (!('imageUrl' in data) || isString(data.imageUrl, 0, 2048))
+        && data.isAvailable is bool
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    // TEMPORARY: restrict to admins when auth is added
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow create, update: if validCategory(request.resource.data);
+      allow delete: if true;
+    }
+
+    // TEMPORARY: restrict to admins when auth is added
+    match /products/{productId} {
+      allow read: if true;
+      allow create, update: if validProduct(request.resource.data);
+      allow delete: if true;
+    }
+  }
+}

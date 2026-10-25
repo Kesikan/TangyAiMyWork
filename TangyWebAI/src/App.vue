@@ -1,47 +1,21 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { RouterLink, RouterView } from 'vue-router'
+import Toast from '@/components/base/Toast.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <div class="flex min-h-screen flex-col">
+    <header class="border-b border-line bg-brand-900 text-white">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+        <RouterLink to="/" class="font-display text-2xl font-bold">Tangy Restaurant</RouterLink>
+      </div>
+    </header>
+    <main class="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
+      <RouterView />
+    </main>
+    <footer class="border-t border-line py-6 text-center text-sm text-ink-muted">
+      &copy; {{ new Date().getFullYear() }} Tangy Restaurant
+    </footer>
+    <Toast />
+  </div>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>

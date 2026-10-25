@@ -1,35 +1,36 @@
-@import './base.css';
+@import 'tailwindcss';
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+@theme {
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-display: ui-serif, Georgia, Cambria, 'Times New Roman', serif;
+
+  --color-brand-50: #fdf6ee;
+  --color-brand-100: #faead4;
+  --color-brand-200: #f4d2a5;
+  --color-brand-500: #c0652a;
+  --color-brand-600: #a55222;
+  --color-brand-700: #86401b;
+  --color-brand-900: #4a2410;
+
+  --color-ink: #2b2118;
+  --color-ink-muted: #5f5247;
+  --color-surface: #fffdf9;
+  --color-line: #e6dccf;
+  --color-danger: #b42318;
+  --color-danger-soft: #fef3f2;
+  --color-success: #1d7a46;
+  --color-success-soft: #ecfdf3;
+
+  --radius-card: 0.75rem;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
+@layer base {
   body {
-    display: flex;
-    place-items: center;
+    @apply bg-surface text-ink font-sans antialiased;
   }
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-600;
   }
 }
