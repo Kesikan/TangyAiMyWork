@@ -7,18 +7,20 @@ const emit = defineEmits<{ close: [] }>()
 
 <template>
   <Dialog :open="open" class="relative z-50" @close="emit('close')">
-    <div class="fixed inset-0 bg-ink/50" aria-hidden="true" />
+    <div class="fixed inset-0 bg-brand-900/60 backdrop-blur-sm" aria-hidden="true" />
     <div class="fixed inset-0 overflow-y-auto p-4">
       <div class="flex min-h-full items-center justify-center">
         <DialogPanel
-          class="w-full rounded-card bg-surface shadow-xl"
+          class="w-full animate-fade-up overflow-hidden rounded-[1.75rem] bg-surface shadow-lift"
           :class="size === 'lg' ? 'max-w-2xl' : 'max-w-lg'"
         >
-          <header class="flex items-start justify-between gap-4 border-b border-line p-4">
-            <DialogTitle class="font-display text-xl font-semibold">{{ title }}</DialogTitle>
+          <header class="flex items-start justify-between gap-4 border-b border-line p-5">
+            <DialogTitle class="font-display text-2xl font-bold text-brand-900">
+              {{ title }}
+            </DialogTitle>
             <button
               type="button"
-              class="inline-flex size-9 items-center justify-center rounded-lg hover:bg-brand-50"
+              class="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-900 transition hover:bg-brand-100"
               aria-label="Close dialog"
               @click="emit('close')"
             >
@@ -34,8 +36,8 @@ const emit = defineEmits<{ close: [] }>()
               </svg>
             </button>
           </header>
-          <div class="p-4"><slot /></div>
-          <footer v-if="$slots.footer" class="flex justify-end gap-2 border-t border-line p-4">
+          <div class="p-5"><slot /></div>
+          <footer v-if="$slots.footer" class="flex justify-end gap-2 border-t border-line p-5">
             <slot name="footer" />
           </footer>
         </DialogPanel>

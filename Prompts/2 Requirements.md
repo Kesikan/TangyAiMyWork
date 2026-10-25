@@ -63,7 +63,9 @@ views/components -> stores (Pinia) -> services -> src/firebase/index.ts
 - If only categories fail, the menu still works, the dropdown is disabled, and a notice is shown.
 - During save and delete, disable the buttons and show a spinner. Show success and error toasts.
 
-## 7. Manage Page `/manage` (no auth yet)
+## 7. Menu Studio (admin page) `/manage` (no auth yet)
+The admin page is called **Menu Studio**. The page heading is "Menu Studio" and the browser title is "Menu Studio | Tangy Restaurant".
+
 Use Headless UI `TabGroup` with two tabs: **Products** and **Categories**.
 
 **Products tab**
@@ -75,14 +77,14 @@ Use Headless UI `TabGroup` with two tabs: **Products** and **Categories**.
 - Delete with a confirmation dialog.
 
 **Categories tab**
-- Table with name, description, product count and sort order.
+- Table with name, description, product count (number of products in the category) and sort order.
 - Create, edit and delete. Names must be unique (case-insensitive) and trimmed.
 - Block deleting a category that still has products. Show "Reassign or delete its N products first."
 - Renaming a category must update the menu automatically, because products use `categoryId`.
 
 **Notice**
 - Show a banner: "Not protected: anyone with this URL can edit data."
-- Do not link `/manage` from the public navigation.
+- Link Menu Studio from the public header as "Menu Studio" (decision: reachable now, login comes later).
 - Keep all write logic in services, so auth can be added later without refactoring.
 
 ## 8. Styling

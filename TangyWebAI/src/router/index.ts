@@ -9,7 +9,7 @@ const router = createRouter({
       path: '/manage',
       name: 'manage',
       component: () => import('@/views/ManageView.vue'),
-      meta: { title: 'Manage Menu' },
+      meta: { title: 'Menu Studio' },
     },
     {
       path: '/:pathMatch(.*)*',

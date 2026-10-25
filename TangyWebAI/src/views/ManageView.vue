@@ -23,7 +23,13 @@ onMounted(() => {
 
 <template>
   <section aria-labelledby="manage-heading" class="flex flex-col gap-6">
-    <h1 id="manage-heading" class="font-display text-3xl font-bold">Manage menu</h1>
+    <div>
+      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">Admin</p>
+      <h1 id="manage-heading" class="font-display text-3xl font-bold text-brand-900">
+        Menu Studio
+      </h1>
+      <p class="text-ink-muted">Manage products and categories.</p>
+    </div>
     <p
       role="note"
       class="rounded-lg border border-danger/30 bg-danger-soft p-3 text-sm text-danger"

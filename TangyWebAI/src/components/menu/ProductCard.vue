@@ -9,16 +9,16 @@ const emit = defineEmits<{ select: [product: Product] }>()
 <template>
   <button
     type="button"
-    class="group flex h-full w-full flex-col overflow-hidden rounded-card border border-line bg-white text-left shadow-sm transition-shadow hover:shadow-md"
+    class="group flex h-full w-full animate-fade-up flex-col overflow-hidden rounded-card border border-line bg-white text-left shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-lift"
     @click="emit('select', product)"
   >
-    <div class="aspect-[4/3] w-full overflow-hidden bg-brand-100">
+    <div class="relative aspect-[4/3] w-full overflow-hidden bg-brand-100">
       <img
         v-if="product.imageUrl"
         :src="product.imageUrl"
         :alt="product.name"
         loading="lazy"
-        class="size-full object-cover transition-transform group-hover:scale-105"
+        class="size-full object-cover transition-transform duration-500 group-hover:scale-110"
       />
       <div
         v-else
@@ -41,16 +41,25 @@ const emit = defineEmits<{ select: [product: Product] }>()
           />
         </svg>
       </div>
-    </div>
-    <div class="flex flex-1 flex-col gap-2 p-4">
-      <div class="flex items-start justify-between gap-3">
-        <h3 class="font-display text-lg font-semibold">{{ product.name }}</h3>
-        <span class="shrink-0 font-semibold text-brand-700">{{ formatPrice(product.price) }}</span>
-      </div>
-      <span class="w-fit rounded-full bg-brand-100 px-2 py-0.5 text-xs font-medium text-brand-900">
+      <span
+        class="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-accent-700 shadow-sm backdrop-blur"
+      >
         {{ categoryName }}
       </span>
-      <p class="line-clamp-2 text-sm text-ink-muted">{{ product.description }}</p>
+      <span
+        class="absolute bottom-3 right-3 rounded-full bg-brand-600 px-3 py-1 text-sm font-bold text-white shadow-soft"
+      >
+        {{ formatPrice(product.price) }}
+      </span>
+    </div>
+    <div class="flex flex-1 flex-col gap-2 p-5">
+      <h3 class="font-display text-xl font-semibold text-brand-900">{{ product.name }}</h3>
+      <p class="line-clamp-2 text-sm leading-relaxed text-ink-muted">{{ product.description }}</p>
+      <span
+        class="mt-auto pt-2 text-sm font-semibold text-brand-600 transition-colors group-hover:text-brand-700"
+      >
+        View details &rarr;
+      </span>
     </div>
   </button>
 </template>

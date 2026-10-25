@@ -67,16 +67,25 @@ onMounted(() => {
     <HeroBanner target-id="menu-heading" />
 
     <section aria-labelledby="menu-heading" class="flex flex-col gap-6">
-      <div>
-        <h2 id="menu-heading" tabindex="-1" class="scroll-mt-6 font-display text-3xl font-bold">
+      <div class="text-center">
+        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">Discover</p>
+        <h2
+          id="menu-heading"
+          tabindex="-1"
+          class="scroll-mt-24 font-display text-4xl font-bold text-brand-900 focus:outline-none"
+        >
           Our Menu
         </h2>
-        <p class="text-ink-muted">
+        <p class="mx-auto mt-2 max-w-xl text-ink-muted">
           Browse our dishes, search for something specific or filter by category.
         </p>
       </div>
 
-      <form class="grid gap-4 sm:grid-cols-[1fr_14rem]" role="search" @submit.prevent>
+      <form
+        class="grid gap-4 rounded-card border border-line bg-white p-4 shadow-soft sm:grid-cols-[1fr_14rem] sm:p-5"
+        role="search"
+        @submit.prevent
+      >
         <BaseInput
           v-model="searchInput"
           label="Search the menu"
@@ -113,11 +122,11 @@ onMounted(() => {
       <ErrorMessage v-else-if="productStore.error" :message="productStore.error" @retry="loadAll" />
 
       <template v-else>
-        <p class="text-sm text-ink-muted" aria-live="polite">
+        <p class="text-sm font-medium text-ink-muted" aria-live="polite">
           {{ results.length }} {{ results.length === 1 ? 'item' : 'items' }}
         </p>
 
-        <ul v-if="results.length" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <ul v-if="results.length" class="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
           <li v-for="product in results" :key="product.id">
             <ProductCard
               :product="product"
@@ -129,7 +138,7 @@ onMounted(() => {
 
         <div
           v-else
-          class="flex flex-col items-center gap-3 rounded-card border border-dashed border-line py-12 text-center"
+          class="flex flex-col items-center gap-3 rounded-card border border-dashed border-brand-200 bg-brand-50 py-14 text-center"
         >
           <p class="text-lg font-medium">No items match your search</p>
           <BaseButton v-if="hasFilters" variant="secondary" @click="clearFilters"
