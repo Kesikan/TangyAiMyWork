@@ -1,0 +1,7 @@
+so basically i want to build a restaurant website where people can come check out our menu, see all the products we have, search for something specific, and filter by category like appetizers or drinks. I want to hook up firebase for the products so it's pulling real data, and i want the firebase side done properly, like actual best practices, config kept in environment variables, nothing hardcoded or thrown together as a quick hack. 
+
+searching should work on name and description, and the category dropdown needs an All option so people aren't stuck picking one category. We should create a separate table for category as well and then based on what is in that table we can load category from dropdown when they are creating/updating product. also when someone clicks a product it open a details modal with more info. oh and don't forget loading spinners and an error message if firebase data load fails. 
+
+We also want to build a page where we can do full CRUD on products and categories, so create, edit, and delete both, since categories shouldn't just be hardcoded forever either. i know this page has no login on it yet, that's fine for now, we'll come back and add admin functionality so it's hidden behind an actual login instead of just sitting open. Do you recommend adding something else to out restaurants website?
+
+Based on these can you create complete requirements that i can review for this task?
