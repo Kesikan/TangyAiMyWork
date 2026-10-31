@@ -24,7 +24,13 @@ vi.mock('@/firebase', () => ({ db: {} }))
 vi.mock('../converters', () => ({ categoryConverter: {} }))
 vi.mock('../productService', () => ({ countProductsByCategory: vi.fn() }))
 
-import { createCategory, deleteCategory, toNameKey, updateCategory } from '../categoryService'
+import {
+  createCategory,
+  deleteCategory,
+  listCategories,
+  toNameKey,
+  updateCategory,
+} from '../categoryService'
 import { CategoryInUseError, DuplicateCategoryNameError } from '../errors'
 import { countProductsByCategory } from '../productService'
 
@@ -38,6 +44,17 @@ beforeEach(() => {
 describe('toNameKey', () => {
   it('trims and lowercases', () => {
     expect(toNameKey('  Main Dishes ')).toBe('main dishes')
+  })
+})
+
+describe('listCategories', () => {
+  it('returns category documents ordered by sort order and name', async () => {
+    const category = { id: 'c1', name: 'Appetizer' }
+    firestore.getDocs.mockResolvedValue({ docs: [{ data: () => category }] })
+
+    await expect(listCategories()).resolves.toEqual([category])
+    expect(firestore.orderBy).toHaveBeenNthCalledWith(1, 'sortOrder')
+    expect(firestore.orderBy).toHaveBeenNthCalledWith(2, 'name')
   })
 })
 
@@ -80,12 +97,30 @@ describe('category name uniqueness', () => {
     )
   })
 
+  it('omits a blank optional description on create', async () => {
+    await createCategory({ name: 'Drinks', description: '   ', sortOrder: 1 })
+
+    expect(firestore.setDoc).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.not.objectContaining({ description: expect.anything() }),
+    )
+  })
+
   it('allows an update to keep its own name', async () => {
     firestore.getDocs.mockResolvedValue({ docs: [{ id: 'c1' }] })
 
     await updateCategory('c1', { name: 'Drinks', sortOrder: 2 })
 
     expect(firestore.updateDoc).toHaveBeenCalledOnce()
+  })
+
+  it('trims and saves an optional description on update', async () => {
+    await updateCategory('c1', { name: 'Drinks', description: ' Cold drinks ', sortOrder: 2 })
+
+    expect(firestore.updateDoc).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({ description: 'Cold drinks' }),
+    )
   })
 
   it('rejects renaming to another category name', async () => {

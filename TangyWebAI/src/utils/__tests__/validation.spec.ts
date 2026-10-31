@@ -29,6 +29,25 @@ describe('validateProduct', () => {
     expect(validateProduct({ ...validProduct, price: '12' }).price).toBeUndefined()
   })
 
+  it('rejects prices above the maximum', () => {
+    expect(validateProduct({ ...validProduct, price: '100001' }).price).toBe(
+      'Price must be 100000 or less.',
+    )
+  })
+
+  it('rejects overlong names, descriptions and image URLs', () => {
+    const errors = validateProduct({
+      ...validProduct,
+      name: 'n'.repeat(101),
+      description: 'd'.repeat(1001),
+      imageUrl: `https://example.com/${'x'.repeat(2048)}`,
+    })
+
+    expect(errors.name).toBe('Name must be 100 characters or fewer.')
+    expect(errors.description).toBe('Description must be 1000 characters or fewer.')
+    expect(errors.imageUrl).toBe('Image URL is too long.')
+  })
+
   it('validates the image URL only when provided', () => {
     expect(validateProduct({ ...validProduct, imageUrl: 'not a url' }).imageUrl).toBeDefined()
     expect(
@@ -48,5 +67,16 @@ describe('validateCategory', () => {
 
   it('accepts valid input', () => {
     expect(validateCategory({ name: 'Drinks', description: '', sortOrder: '2' })).toEqual({})
+  })
+
+  it('rejects overlong category names and descriptions', () => {
+    const errors = validateCategory({
+      name: 'c'.repeat(61),
+      description: 'd'.repeat(301),
+      sortOrder: '0',
+    })
+
+    expect(errors.name).toBe('Name must be 60 characters or fewer.')
+    expect(errors.description).toBe('Description must be 300 characters or fewer.')
   })
 })

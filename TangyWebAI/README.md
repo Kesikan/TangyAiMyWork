@@ -58,6 +58,7 @@ Emulator UI: http://localhost:4000
 | `npm run lint` | ESLint |
 | `npm run format` | Prettier |
 | `npm test` | Vitest |
+| `npm run test:coverage` | Vitest with V8 coverage; enforces at least 90% statements, branches, functions and lines for services, stores and utilities |
 | `npm run seed` | Seed categories and products |
 
 ## Data model

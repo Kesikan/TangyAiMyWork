@@ -12,6 +12,7 @@
     "lint": "eslint . --cache",
     "format": "prettier --write \"src/**/*.{ts,vue,css,json}\"",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "seed": "node --env-file=.env --env-file-if-exists=.env.local scripts/seed.ts"
   },
   "dependencies": {
@@ -28,6 +29,7 @@
     "@types/jsdom": "^30.0.0",
     "@types/node": "^24.13.4",
     "@vitejs/plugin-vue": "^6.0.8",
+    "@vitest/coverage-v8": "^5.0.5",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.9.0",
     "@vue/test-utils": "^2.5.1",

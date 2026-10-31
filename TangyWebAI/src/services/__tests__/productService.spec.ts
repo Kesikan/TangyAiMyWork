@@ -27,6 +27,7 @@ vi.mock('../converters', () => ({ productConverter: {} }))
 import {
   countProductsByCategory,
   createProduct,
+  deleteProduct,
   listProducts,
   updateProduct,
 } from '../productService'
@@ -64,6 +65,21 @@ describe('productService', () => {
       expect.anything(),
       expect.objectContaining({ imageUrl: 'DELETE', updatedAt: 'TS' }),
     )
+  })
+
+  it('trims and keeps a non-empty image URL on update', async () => {
+    await updateProduct('p1', { ...input, imageUrl: ' https://example.com/soup.jpg ' })
+
+    expect(firestore.updateDoc).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({ imageUrl: 'https://example.com/soup.jpg' }),
+    )
+  })
+
+  it('deletes a product document', async () => {
+    await deleteProduct('p1')
+
+    expect(firestore.deleteDoc).toHaveBeenCalledOnce()
   })
 
   it('counts products for a category', async () => {

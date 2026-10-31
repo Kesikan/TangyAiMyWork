@@ -102,6 +102,7 @@ Use Headless UI `TabGroup` with two tabs: **Products** and **Categories**.
   - search and category filter logic
   - services (mocked Firestore)
   - category delete blocking
+- `npm run test:coverage` must enforce at least 90% statements, branches, functions and lines for service, store and utility logic.
 - `README.md` covering setup, env vars, emulator, seeding and deploying to Firebase Hosting.
 
 ## 10. Out of Scope (do not build)
@@ -126,7 +127,7 @@ Authentication, orders, payments, reservations, Firebase Storage uploads.
 7. The details modal and manage forms use Headless UI `Dialog`.
 8. Tailwind is the only CSS framework, and no template CSS remains.
 9. The layout works at 320, 768 and 1280 px.
-10. `npm run type-check`, `lint` and `test` all pass.
+10. `npm run type-check`, `lint`, `test` and `test:coverage` pass; coverage remains at least 90% for statements, branches, functions and lines in service, store and utility logic.
 
 ## 13. Rules for the Agent
 - Don't add features, libraries or files outside this spec.
