@@ -141,3 +141,9 @@ Authentication, orders, payments, reservations, Firebase Storage uploads.
 
 ## Recommended Later Additions
 Admin authentication (high priority), Firebase Storage image upload, hours and location page, dietary tags, featured items, reservations.
+
+## Contact Page `/contact`
+- Add a Contact page reachable from the shared header navigation.
+- Include accessible name, email and message fields with native required/email validation.
+- The form prepares a message using the visitor's default email app (`mailto:`); it does not store or send messages through a backend.
+- Recipient is the optional `VITE_CONTACT_EMAIL` environment variable. If unset, show a clear configuration notice and don't invent contact details.

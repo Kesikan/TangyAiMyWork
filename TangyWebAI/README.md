@@ -31,6 +31,10 @@ All Firebase config comes from `.env` (never committed). See `.env.example`:
 
 The app throws an error naming any missing variable at startup. The web API key is not a secret. Data is protected by Firestore security rules.
 
+| `VITE_CONTACT_EMAIL` | Optional recipient for the Contact page's email-app form |
+
+The Contact page opens the visitor's default email app using `mailto:`; it does not store or send messages through a backend. If the recipient is unset, the page displays a configuration notice.
+
 ## Local development with the emulator
 
 Requires the [Firebase CLI](https://firebase.google.com/docs/cli) and Java.

@@ -30,12 +30,20 @@ import Toast from '@/components/base/Toast.vue'
             Tangy Restaurant
           </span>
         </RouterLink>
-        <RouterLink
-          to="/manage"
-          class="rounded-full px-4 py-2 text-sm font-semibold text-ink-muted transition-colors hover:bg-brand-100 hover:text-brand-900"
-        >
-          Menu Studio
-        </RouterLink>
+        <nav aria-label="Main navigation" class="flex items-center gap-1 sm:gap-2">
+          <RouterLink
+            to="/contact"
+            class="rounded-full px-3 py-2 text-sm font-semibold text-ink-muted transition-colors hover:bg-brand-100 hover:text-brand-900 sm:px-4"
+          >
+            Contact
+          </RouterLink>
+          <RouterLink
+            to="/manage"
+            class="rounded-full px-3 py-2 text-sm font-semibold text-ink-muted transition-colors hover:bg-brand-100 hover:text-brand-900 sm:px-4"
+          >
+            Menu Studio
+          </RouterLink>
+        </nav>
       </div>
     </header>
 

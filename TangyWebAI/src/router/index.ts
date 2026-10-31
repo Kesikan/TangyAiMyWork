@@ -6,6 +6,12 @@ const router = createRouter({
   routes: [
     { path: '/', name: 'menu', component: MenuView, meta: { title: 'Menu' } },
     {
+      path: '/contact',
+      name: 'contact',
+      component: () => import('@/views/ContactView.vue'),
+      meta: { title: 'Contact Us' },
+    },
+    {
       path: '/manage',
       name: 'manage',
       component: () => import('@/views/ManageView.vue'),
